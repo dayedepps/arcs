@@ -1,9 +1,15 @@
-SUBDIRS = \
-	Common \
-	DataLayer \
-	Arcs
+bin_PROGRAMS = arcs
 
-dist_doc_DATA = \
-	README.md
+arcs_CXXFLAGS = $(AM_CXXFLAGS) $(OPENMP_CXXFLAGS)
+
+arcs_CPPFLAGS = -I$(top_srcdir)/Arcs \
+	-I$(top_srcdir)/Common \
+	-I$(top_srcdir)/DataLayer \
+	-I$(top_srcdir)
 	
-EXTRA_DIST = autogen.sh
+arcs_LDADD = $(top_builddir)/DataLayer/libdatalayer.a \
+	$(top_builddir)/Common/libcommon.a -lz
+	
+arcs_LDFLAGS = $(OPENMP_CXXFLAGS) -pg
+
+arcs_SOURCES = Arcs_work.h Arcs_work.cpp
